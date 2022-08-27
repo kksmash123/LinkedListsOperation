@@ -35,6 +35,7 @@ int countNodesCLL(struct Node* head);
 
 struct Node* InsertCLL(int pos, int val, struct Node* head);
 
+struct Node* DeleteCLL(int pos, struct Node* head);
 
 
 
@@ -45,7 +46,52 @@ struct Node* InsertCLL(int pos, int val, struct Node* head);
 
 
 
+struct Node* DeleteCLL(int pos, struct Node* head)
+{
+    //check for empty list
+    if (!head)
+        return NULL;
 
+    //check for valid position
+
+    if (pos<1 || pos>countNodesCLL(head))
+    {
+        cout << "Invalid Position -> deletion Operation not done" << endl;
+        return head;
+    }
+
+    //single element in the list ->delete that node -> list become empty list
+    if (pos == 1 && head->next==head)
+    {
+        delete head;
+        return NULL;
+    }
+
+    struct Node* p = head, *dele=NULL;
+
+
+    //Deleting head node when the list with more than one node
+    if (pos == 1)
+    {
+        while (p->next != head)
+            p = p->next;
+
+        p->next = head->next;
+        delete head;
+        head = p->next;
+    }
+    else
+    {
+        for (int i = 1;i < pos - 1;i++)
+            p = p->next;
+
+        dele = p->next;
+        p->next = dele->next;
+        delete dele;
+    }
+
+    return head;
+}
 
 
 struct Node* InsertCLL(int pos, int val,struct Node* head)
@@ -419,7 +465,11 @@ int main()
     //DisplayCLL2(HeadCLL);
 
     //cout << "Number of nodes in circular linked list : " << countNodesCLL(HeadCLL);
-    cout << "After insertion" << endl;
-    DisplayCLL(HeadCLL = InsertCLL(10, 5, HeadCLL));
+    //cout << "After insertion" << endl;
+    //DisplayCLL(HeadCLL = InsertCLL(10, 5, HeadCLL));
+
+
+    cout << "After Deletion" << endl;
+    DisplayCLL(HeadCLL = DeleteCLL(1, HeadCLL));
 
 }
