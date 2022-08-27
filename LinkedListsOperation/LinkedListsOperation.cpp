@@ -8,7 +8,7 @@ struct Node
 
     struct Node* next;
 
-}*Hfirst,*Hsecond;
+}*Hfirst,*Hsecond,*HeadCLL;
 
 
 struct Node* createll(int a[], int n);
@@ -21,7 +21,71 @@ struct Node* MergeLL(struct Node* l1, struct node* l2);
 
 struct Node* MergeUpdate(struct Node* l1, struct Node* l2);
 
+bool checkLoop(struct Node* head);
 
+struct Node* creatcircularLL(int a[], int n);
+
+void DisplayCLL(struct Node* head);
+
+
+
+
+void DisplayCLL(struct Node* head)
+{
+
+}
+
+
+struct Node* creatcircularLL(int a[], int n) 
+{
+    struct Node* head=NULL,*p=NULL;
+
+    //empty array ->empty list
+    if (n == 0)
+        return NULL;
+    head = new Node;
+    head->data = a[0];
+    head->next = head;
+   
+    //for single element is passed
+    if (n == 1)
+        return head;
+    
+    //more then one element is passed
+    p = head;
+
+    for (int i = 1;i < n;i++)
+    {
+        struct Node* temp = new Node;
+        temp->data = a[i];
+        temp->next = head;
+        p->next = temp;
+
+        p = temp;
+
+    }
+    return head;
+}
+
+
+bool checkLoop(struct Node* head)
+{
+
+    struct Node* slow, * fast;
+    slow = fast = head;
+
+    do
+    {
+        slow = slow->next;
+        fast = fast->next ? fast->next->next : NULL;
+
+    } while (slow && fast && (slow != fast));
+
+    if (slow == fast)
+        return true;
+    else
+        return false;
+}
 
 
 struct Node* MergeUpdate(struct Node* l1, struct Node* l2)
@@ -119,12 +183,6 @@ struct Node* MergeLL(struct Node* l1, struct Node* l2)
 }
 
 
-
-
-
-
-
-
 void concatList(struct Node* l1, struct Node* l2)
 {
     struct Node* head, * p;
@@ -178,20 +236,24 @@ struct Node* createll(int a[], int n)
 
 
 
+
+
 int main()
 {
-    int a[3] = { 10,20,30 };
-    int b[5] = {15,25,35,40,50};
+    //int a[3] = { 10,20,30 };
+    //int b[5] = {5,125,135,140,150};
 
-    //create 2 linked list 
-    Hfirst = createll(a, 3);
-    Hsecond = createll(b, 5);
+    //
 
-    //Displaying the 2 linked list
-    cout << "First Linked List " << endl;
-    Display(Hfirst);
-    cout <<endl<< "Second Linked List " << endl;
-    Display(Hsecond);
+    ////create 2 linked list 
+    //Hfirst = createll(a, 3);
+    //Hsecond = createll(b, 5);
+
+    ////Displaying the 2 linked list
+    //cout << "First Linked List " << endl;
+    //Display(Hfirst);
+    //cout <<endl<< "Second Linked List " << endl;
+    //Display(Hsecond);
 
     //concatenating the 2 linked list ,l1 ->first linked list , l2->second linked list concate to l1.
     /*concatList(Hfirst,Hsecond );
@@ -203,9 +265,32 @@ int main()
     Display(Hmerge);*/
 
 
-    struct Node* Hmerge2 = MergeUpdate(Hfirst, Hsecond);
+    /*struct Node* Hmerge2 = MergeUpdate(Hfirst, Hsecond);
     cout << endl << "After merging the  Linked List " << endl;
-    Display(Hmerge2);
+    Display(Hmerge2);*/
+
+    ////making loops in hfirst
+    //struct Node* t = Hfirst->next, *t1= Hfirst->next->next;
+
+    //t1->next = t;
+
+    //// displaying loop
+    ///*cout << "First Linked List " << endl;
+    //Display(Hfirst);*/
+
+    //cout << endl << "Is loop present in the linked list : " << checkLoop(Hsecond);
+
+
+
+    //circular linked list creation
+
+    int a[5] = { 10,20,30,40,50 };
+
+    HeadCLL = creatcircularLL(a, 5);
+
+    //Displaying the circular linked list
+
+
 
 
 
