@@ -27,11 +27,51 @@ struct Node* creatcircularLL(int a[], int n);
 
 void DisplayCLL(struct Node* head);
 
+void recursiveDisplayCLL(struct Node* head);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+void recursiveDisplayCLL(struct Node* head)
+{
+    static int flag = 0;
+
+    if(head!=HeadCLL || flag==0 )
+    {
+        flag = 1;
+        cout << head->data<<" ";
+        recursiveDisplayCLL(head->next);
+    }
+}
 
 
 void DisplayCLL(struct Node* head)
 {
+    cout << endl << "Circular Linked List Is Displaying Here "<<endl;
+
+    struct Node* p = head;
+
+    if (!head)
+    {
+        cout << "empty list"<<endl;
+        return;
+    }
+
+    do
+    {
+        cout << p->data<<" ";
+        p = p->next;
+    } while (p != head);
 
 }
 
@@ -289,8 +329,11 @@ int main()
     HeadCLL = creatcircularLL(a, 5);
 
     //Displaying the circular linked list
+    //DisplayCLL(HeadCLL);
 
-
+    //recursive function to display circular linked list
+    cout << endl << "Recursive Function to display circular linked list" << endl;
+    recursiveDisplayCLL(HeadCLL);
 
 
 
