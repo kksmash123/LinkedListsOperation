@@ -17,7 +17,7 @@ void Display(struct Node* head);
 
 void concatList(struct Node* l1, struct Node* l2);
 
-struct Node* MergeLL(struct Node* l1, struct node* l2);
+struct Node* MergeLL(struct Node* l1, struct Node* l2);
 
 struct Node* MergeUpdate(struct Node* l1, struct Node* l2);
 
@@ -27,8 +27,13 @@ struct Node* creatcircularLL(int a[], int n);
 
 void DisplayCLL(struct Node* head);
 
+void DisplayCLL2(struct Node* head);
+
 void recursiveDisplayCLL(struct Node* head);
 
+int countNodesCLL(struct Node* head);
+
+struct Node* InsertCLL(int pos, int val, struct Node* head);
 
 
 
@@ -40,11 +45,78 @@ void recursiveDisplayCLL(struct Node* head);
 
 
 
+
+
+
+struct Node* InsertCLL(int pos, int val,struct Node* head)
+{
+    //Check for valid index
+    if (pos < 0 || pos > countNodesCLL(head))
+    {
+        cout << "invalid index "<<endl;
+        return head;
+    }
+    //for valid index
+
+    struct Node* p = head, *newNode =new Node;
+    newNode->data = val;
+
+    //empty list
+    if (!p)
+    {
+        newNode->next = newNode;
+        head= newNode;
+        return head;
+    }
+
+    //non empty list
+
+    //Insert before first node and insert after last is same,if the pos ->0, then make it pos->6 
+    if (pos == 0)
+        pos = countNodesCLL(head)+1;
+
+    for (int i = 1;i < pos - 1;i++)
+        p = p->next;
+
+    newNode->next = p->next;
+    p->next = newNode;
+
+    //Alter head inserting before the head, newnode will become head
+    if (pos == countNodesCLL(head))
+        head = newNode;
+
+    return head;
+
+}
+
+
+int countNodesCLL(struct Node* head)
+{
+    if (!head)
+        return 0;
+
+    int count = 0;
+    struct Node* p = head;
+
+    while (p->next != head)
+    {
+        count++;
+        p = p->next;
+    }
+    return ++count;
+}
 
 
 void recursiveDisplayCLL(struct Node* head)
 {
     static int flag = 0;
+
+    if (!head)
+    {
+        cout << "empty list";
+        return;
+
+    }
 
     if(head!=HeadCLL || flag==0 )
     {
@@ -55,9 +127,20 @@ void recursiveDisplayCLL(struct Node* head)
 }
 
 
+void DisplayCLL2(struct Node* head)
+{
+    while (head->next != HeadCLL)
+    {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << head->data<<endl;
+}
+
+
 void DisplayCLL(struct Node* head)
 {
-    cout << endl << "Circular Linked List Is Displaying Here "<<endl;
+    cout << "Circular Linked List Is Displaying Here "<<endl;
 
     struct Node* p = head;
 
@@ -72,7 +155,7 @@ void DisplayCLL(struct Node* head)
         cout << p->data<<" ";
         p = p->next;
     } while (p != head);
-
+    cout << endl;
 }
 
 
@@ -276,8 +359,6 @@ struct Node* createll(int a[], int n)
 
 
 
-
-
 int main()
 {
     //int a[3] = { 10,20,30 };
@@ -324,17 +405,21 @@ int main()
 
     //circular linked list creation
 
-    int a[5] = { 10,20,30,40,50 };
+    int a[5] ={10,20,30,40,50};
 
     HeadCLL = creatcircularLL(a, 5);
 
     //Displaying the circular linked list
-    //DisplayCLL(HeadCLL);
+    DisplayCLL(HeadCLL);
 
     //recursive function to display circular linked list
-    cout << endl << "Recursive Function to display circular linked list" << endl;
-    recursiveDisplayCLL(HeadCLL);
+    //cout << endl << "Recursive Function to display circular linked list" << endl;
+    //recursiveDisplayCLL(HeadCLL);
 
+    //DisplayCLL2(HeadCLL);
 
+    //cout << "Number of nodes in circular linked list : " << countNodesCLL(HeadCLL);
+    cout << "After insertion" << endl;
+    DisplayCLL(HeadCLL = InsertCLL(10, 5, HeadCLL));
 
 }
